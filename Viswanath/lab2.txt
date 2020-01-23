@@ -3,7 +3,20 @@ ansible all -i  10.0.0.62, -m yum -a"name=httpd state=installed" -b -u ruser -k 
 ansible all -i  10.0.0.62, -m service -a"name=httpd state=started" -b -u ruser -k -K
 ansible all -i  10.0.0.62, -m copy -a"dest=/var/www/html/ src=index.html" -b -u ruser -k -K
 
+Invetory
+------------------------------------
+[dev]
+10.0.0.62 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
 
+[stage]
+10.0.0.62
+
+[prod:children]
+dev
+stage
+--------------------------------------
+
+ansible dev -i inventory -m service -a"name=httpd state=started"
 
 
        
