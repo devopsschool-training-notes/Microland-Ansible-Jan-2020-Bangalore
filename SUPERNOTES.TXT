@@ -565,3 +565,5 @@ web
 db
 
 ansible dev -i invent_group -m yum -a"name=httpd state=installed"
+
+https://www.devopsschool.com/videos/
