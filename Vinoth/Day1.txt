@@ -43,3 +43,25 @@ Program 10 – Write a Ansible commands to touch a file called “devopsschool.t
 sudo ansible localhost -m file -a "dest=/opt/devopsschool.txt state=touch" -b
 sudo ansible localhost -m file -a "path=/opt/devopsschool.txt state=absent" -b
 ========================================================================================================================================
+Connect to remote server
+
+ansible all -i  10.0.0.61, -m yum -a"name=httpd state=installed" -b -k -K
+ansible all -i  10.0.0.61, -m yum -a"name=httpd state=installed" -b -u username -k -K
+========================================================================================================================================
+Create Inventory file:
+10.0.0.61 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+Run Command:
+ansible all -i invent_group -m yum -a"name=httpd state=installed"
+========================================================================================================================================
+Create Inventory file with group:
+[web]
+10.0.0.61 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+Run Command:
+ansible web -i invent_group -m yum -a"name=httpd state=installed"
+========================================================================================================================================
+
+
+
+
