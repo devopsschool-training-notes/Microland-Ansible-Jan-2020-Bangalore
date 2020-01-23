@@ -509,3 +509,59 @@ ansible db,web -i invent_group -m yum -a"name=httpd state=installed" -b -u ec2-u
 ansible web -i invent_group -m yum -a"name=httpd state=installed" -b -u ec2-user --key-file=rajesh-mumbai.pem
 ansible db,web -i invent_group -m yum -a"name=httpd state=installed" -b -u ec2-user --key-file=rajesh-mumbai.pem
 
+=============================================================================================
+
+it has group of group
+it has BEHAVIOURAL Parameters
+
+
+invent_group_ofgroup
+---------------------------
+[web]
+13.232.4.11
+
+[db]
+13.233.144.140
+
+[xys]
+server1
+server2
+server3
+
+[app]
+ddb1
+db2
+db3
+
+[dev:children]
+web
+db
+
+ansible dev -i invent_group -m yum -a"name=httpd state=installed" -b -u ec2-user --key-file=rajesh-mumbai.pem
+
+https://docs.ansible.com/ansible/latest/intro_inventory.html
+https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
+
+invent_group_ofgroup
+---------------------------
+[web]
+13.232.4.11 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+
+[db]
+13.233.144.140 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+
+[xys]
+server1
+server2
+server3
+
+[app]
+ddb1
+db2
+db3
+
+[dev:children]
+web
+db
+
+ansible dev -i invent_group -m yum -a"name=httpd state=installed"
