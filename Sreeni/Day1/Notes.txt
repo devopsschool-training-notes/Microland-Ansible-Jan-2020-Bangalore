@@ -54,26 +54,20 @@ Program 7 – Write a Ansible commands to install a package called “git”, �
 
           A)     ansible localhost  -m yum -a "name=git,wget state=present" -become -K  
           
-          
-Program 8 – Write a Ansible Adhoc commands to clone git repo. https://github.com/scmgalaxy/ansible-role-template.
+          Program 8 – Write a Ansible Adhoc commands to clone git repo. https://github.com/scmgalaxy/ansible-role-template.
 
-          A)     ansible localhost  -m git -a "repo='' " -become -K  
-          
-Program 9 – Write a Ansible commands to reboot a self machine.
+          A)    ansible localhost -m git -a "clone=yes dest=/home/ruser/GIT repo=https://gith
+ub.com/scmgalaxy/ansible-role-template" -b
 
-          A)     ansible localhost  -m shell -a "cmd='init 0'" -become -K 
-                 
-                 ansible localhost  -m reboot -become -K 
+Program 9 – Write a Ansible commands to reboot a self machine
 
+            Ans: ansible localhost -m reboot -b
 
-          
-          
-          
-          
+Program 10 – Write a Ansible commands to touch a file called “devopsschool.txt” in /opt/ and delete after using ansible adhoc command.
 
+            Ans:        ansible localhost -m file -a"path=/opt/devopsschool.txt state=touch" -b 
+                        ansible localhost -m file -a"path=/opt/devopsschool.txt state=absent" -b
 
-
-
-
+###################################   Remote machine   ##################################
 
 
