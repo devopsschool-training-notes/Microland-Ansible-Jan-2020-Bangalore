@@ -1,0 +1,13 @@
+ansible all -i 10.0.0.59, -m copy -a"dest=/var/www/html/ src=/home/ruser/index.html" -b -u ruser -K
+ansible all -i  inventory_vennam -m service -a"name=httpd state=started" -b -u ruser -k -K
+
+**Group inventory**
+invent_group_ofgroup
+---------------------------
+[web]
+10.0.0.59
+
+[db]
+10.0.0.59
+
+**Behavioural inventory**
