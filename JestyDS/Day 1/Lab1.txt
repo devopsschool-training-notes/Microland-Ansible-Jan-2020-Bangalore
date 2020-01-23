@@ -37,6 +37,16 @@ Program 10 – Write a Ansible commands to touch a file called “devopsschool.t
 sudo ansible localhost -m file -a"path=/opt/devopsschool.txt state=touch state=absent" -b
 
 
+[Web]
+10.0.0.52 ansible_user=ruser ansible_password=Welcome123! ansible_become_pass=Welcome123! ansible_become=yes
+
+[App]
+10.0.0.28 ansible_user=ruser ansible_password=Welcome123! ansible_become_pass=Welcome123! ansible_become=yes
+
+[Dev:children]
+Web
+App
+
 
 
 
