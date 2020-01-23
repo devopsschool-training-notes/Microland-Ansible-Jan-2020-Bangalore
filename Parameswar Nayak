@@ -5,3 +5,14 @@ sudo ansible localhost -m user -a"name=deploy-user group=deploy state=present" -
 ansible localhost -m yum -a"name=httpd state=installed" -b 
 
 ansible localhost -m service -a"name=httpd state=started enabled=yes"
+
+------------------------------------------------------------------------------
+With inventory
+sudo ansible all -i 10.0.0.43, -m group -a"name=deploy state=present" -b -u ruser -k -K
+
+-------------------------------------------------------------------------------
+[web]
+10.0.0.43 ansible_user=ruser ansible_password=Welcome123! ansible_connection=ssh ansible_become_password=Welcome123! ansible_become=yes
+------------------------------------------------------------------------------
+
+sudo ansible web -i inventory -m user -a"name=deploy-user group=deploy state=present"
