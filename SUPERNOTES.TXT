@@ -824,3 +824,149 @@ https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-1/
 
 Lab 4 - 
 https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-2/
+===========================================================================
+
+
+Looping
+==========================================
+https://www.devopsschool.com/tutorial/ansible/ansible-looping-programming-playbooks.html
+
+COPY A FILES Vs templates
+================================
+https://www.devopsschool.com/blog/how-to-use-template-in-ansible/
+https://www.devopsschool.com/tutorial/ansible/ansible-playbook-template.html
+ACS --------> ARS
+
+                    ENV - DEV                 QA              PROD
+
+PLAYBOOK                80                  81              8080
+
+/etc/httpd/conf/httpd.conf
+
+1. Convert into .j2
+2. Replace a expected value with VAR in .j2
+3. Assign var at you desire place
+4. use --- template module ----
+5. run it.
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: web,db
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: Template a file to /etc/files.conf
+    template:
+      src: httpd.conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+  - name: restart service
+    service: name={{ service }} state=started
+
+
+==================HANDLERS===================
+https://www.devopsschool.com/blog/calling-ansible-handlers-based-on-os-distributions/
+
+---
+- name: This sets up an httpd webserver
+  hosts: web,db
+
+  tasks:
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+    notify:
+      - i love ansible
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start service if found stop
+    service: name={{ service }} state=started
+  - name: Template a file to /etc/files.conf
+    template:
+      src: httpd.conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+    notify:
+      - restart service
+
+  handlers:
+    - name: restart service
+      service: name={{ service }} state=restarted
+    - name: i love ansible
+      debug:
+        msg: "i love ansible"
+
+==============================================================
+PENDING LAB FROM home = HOME WORK
+https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-2/
+https://www.devopsschool.com/blog/ansible-playbook-lab-excercise-part-2/
+https://www.devopsschool.com/blog/ansible-playbook-lab-excercise-part-3/
+
+============================================
+var in playbook
+    var in ext file
+var in invenory
+    var in groups vars/hostvar
+
+ONE TASK ---> Ansible adhoc
+Multiple TASK ---> Ansible Playbook
+Multiple Playbook --> ??????
+https://www.devopsschool.com/blog/ansible-include-scnario-with-list-of-plays-or-tasks/
+
+PLAYBOOK
+    PLAYS
+            TASKS
+
+---> 
+How to add addtional/external Tasks in Play?
+How to call from one playbook to another playbook?
+============================================================
+
+I have multiple TASKS file?
+I have multiple variable file? for playbook
+I have multiple handlers?
+I have multiple Template?
+I have multile files???????
+==================================================
+ROLE
+
+
+
+
+
+
+site.yaml
+--------------------
+  
+---
+- hosts: web,db
+  gather_facts: false
+  remote_user: ec2-user
+  become: yes
+  roles:
+    - role: web
+    #- role: geerlingguy.java
+
+https://github.com/geerlingguy/ansible-role-java
+
+
+
+
+QA -
+How to call handlers in middile? ----> Include task
+SEquence?
+Plugins for Nested loops
+Error Handling
+
+How to pass onevar from one Playbook 
+Set Fact
+
+QA
+=================
+If task got executed but if the is no change - notification or exec some tasks.
+Alternative of Handlers.
+
+=
+
+
