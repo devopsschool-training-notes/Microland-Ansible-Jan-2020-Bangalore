@@ -38,9 +38,9 @@ play2_vars.yaml
 
 myvar.yaml
 ---
-myname="vennam_from_external_file"
-package="httpd"
-service="httpd"
+myname: "vennam_from_external_file"
+package: "httpd"
+service: "httpd"
 ...
 
 play3_vars.yaml
