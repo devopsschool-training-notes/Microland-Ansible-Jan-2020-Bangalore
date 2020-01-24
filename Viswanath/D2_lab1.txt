@@ -85,3 +85,27 @@ Program 8 - Write a Ansible Playbook to clone git repo. thttps://github.com/scmg
   tasks:
   - name: clone git
     git: repo=https://github.com/scmgalaxy/ansible-role-template dest=localhost clone=yes
+    
+    
+ Program 9 - Now Merge all Top Playbook into one and run and verify
+ 
+---
+- name: merge all the playbooks
+  hosts: localhost
+  tasks:
+  - name: create a group
+    group: name=deploy state=present
+  - name: create user
+    user: name=user state=present group=deploy shell=/bin/bash
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+  - name: create a file
+    file: path=/var/html/index.html state=touch
+  - name: install git
+    yum: name=git state=installed
+  - name: install wget
+    yum: name=wget state=installed
+  - name: clone git
+    git: repo=https://github.com/scmgalaxy/ansible-role-template dest=localhost clone=yes
