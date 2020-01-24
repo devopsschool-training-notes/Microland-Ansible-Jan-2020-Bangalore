@@ -1,1 +1,46 @@
 
+---
+   - hosts: web
+     tasks:
+     - name: creating a group
+       group: name=deploy state=present
+  - hosts: web
+      tasks:
+      - name: adding user in deploy group
+        user: name=deploy-user group=deploy
+
+     - hosts: web
+       tasks:
+       - name: installing package on centos/rhel
+         yum: name=httpd state=installed
+
+     - hosts: web
+       tasks:
+       - name: start and enable the httpd service
+       service: name=httpd state=started    
+     
+     - hosts: web
+       tasks:
+       - name: create a file
+         file: path=/var/www/html/index.html state=touch
+       - name: adding content to the file
+         copy:
+          content=xyzxc
+          dest=/var/www/html/index.html state=touch
+
+     - hosts: localhost
+       tasks:
+       - name: reboot a self machine
+         reboot:
+
+     - hosts:
+       tasks:
+       - name: install a git
+         yum: name=git state=installed
+       - name: install a wget
+         yum: name=wget state=installed
+
+     - hosts: localhost
+       tasks:
+       - name: clone the git repo
+         git: repo=repo=https://github.com/scmgalaxy/ansible-role-template dest=/var/www
