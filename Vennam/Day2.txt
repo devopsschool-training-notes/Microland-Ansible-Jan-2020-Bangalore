@@ -1,0 +1,61 @@
+inventory
+---------------------------
+[web]
+10.0.0.59 ansible_user=ruser ansible_password=Welcome123! ansible_become_password=Welcome123! ansible_become=yes
+
+[db]
+10.0.0.59 ansible_user=ruser ansible_password=Welcome123! ansible_become_password=Welcome123! ansible_become=yes
+
+play1.yaml
+---
+- name: This creates a group called deploy
+  hosts: web
+  tasks:
+  - name: Create group called deploy
+    group: name=deploy state=present
+...
+
+play2.yaml
+---
+- name: This adds a user to the group deploy
+  hosts: web
+  tasks:
+  - name: Add user
+    user: name=deploy-user state=present shell=/bin/bash
+...
+
+play3.yaml
+---
+- name: This installs httpd package
+  hosts: web
+  tasks:
+  - name: Install package
+    yum: name=httpd state=installed
+...
+
+play4.yaml
+---
+- name: This starts and enables httpd package
+  hosts: web
+  tasks:
+  - name: Install package
+    service: name=httpd state=started enabled=yes
+...
+
+play5.yaml
+---
+- name: This creates dummy index.html
+  hosts: web
+  tasks:
+  - name: Create html file
+    blockinfile: path=/var/www/html/index.html create=yes state=present block=<h1>Welcome to Day2</h1>
+...
+
+play6.yaml
+---
+- name: This reboots machine
+  hosts: localhost
+  tasks:
+  - name: Reboot machine
+    reboot:
+...
