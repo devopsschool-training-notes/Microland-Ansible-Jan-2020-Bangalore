@@ -48,7 +48,7 @@ play5.yaml
   hosts: web
   tasks:
   - name: Create html file
-    blockinfile: path=/var/www/html/index.html create=yes state=present block=<h1>Welcome to Day2</h1>
+    blockinfile: path=/var/www/html/index.html create=yes state=present block="<h1>Welcome to Day2</h1>"
 ...
 
 play6.yaml
@@ -104,7 +104,7 @@ play9.yaml
   hosts: web
   tasks:
   - name: Create html file
-    blockinfile: path=/var/www/html/index.html create=yes state=present block=<h1>Welcome to Day2</h1>
+    blockinfile: path=/var/www/html/index.html create=yes state=present block="<h1>Welcome to Day2</h1>"
 - name: This reboots machine
   hosts: localhost
   tasks:
