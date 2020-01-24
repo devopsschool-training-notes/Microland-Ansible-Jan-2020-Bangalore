@@ -1,1 +1,48 @@
 
+---
+- name: create a group called “deploy”
+hosts: web
+  tasks:
+  - group: name=deploy state=present
+
+
+- name: create a user called “deploy-user” which is part of group called “deploy” and with /bin/bash shell
+  hosts: web
+  tasks:
+  - user: name=deploy-user group=deploy shell=/bin/bash state=present
+
+
+- name: install package named “httpd” in RHEL/centos
+  hosts: web
+  tasks:
+  - yum: name=httpd state=installed
+
+
+- name: start and enable the service named “httpd”
+  hosts: web
+  tasks:
+  - service: name=httpd state=started
+
+
+- name: create a file called “index.html” in /var/www/html with some dummy html contents
+  hosts: web
+  tasks:
+  - blockinfile: path=/var/www/html/index.html create=yes block=welcome state=present
+
+- name: reboot a self machine
+  hosts: web
+tasks:
+- reboot:
+
+
+- name: install a package called “git”, “wget”
+hosts: web
+tasks:
+- yum: name=git,wget state=installed
+
+
+- name: clone git repo. thttps://github.com/scmgalaxy/ansible-role-template
+hosts: web
+tasks:
+- git: clone=yes dest=/home/ruser/GIT repo=https://github.com/scmgalaxy/ansible-role-template
+...
