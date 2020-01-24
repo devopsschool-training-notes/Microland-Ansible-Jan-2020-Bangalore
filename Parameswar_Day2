@@ -62,3 +62,17 @@ package=httpd
     - debug:
         msg: package is {{package_play}}
 ...
+==================Command line======================
+- name: Install Httpd command line
+  hosts: web
+  vars_prompt:
+    - name: "package"
+      prompt: "Which package Do you want to install?"
+      private: no
+
+  tasks:
+    - name: Ansible prompt example.
+      yum: name={{ package }} state=installed
+    - debug:
+        msg: "{{ package }}"
+...
