@@ -43,3 +43,15 @@ Inventory:
      state: "present"
      
      
+4) Write a Ansible Playbook to start and enable the service named “httpd”
+
+---
+- name: play4
+  hosts: One
+  tasks:
+  - name: start service
+    service:
+      name: "httpd"
+      state: "started"
+...
+
