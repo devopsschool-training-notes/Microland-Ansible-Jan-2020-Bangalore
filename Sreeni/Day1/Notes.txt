@@ -73,4 +73,6 @@ Program 10 – Write a Ansible commands to touch a file called “devopsschool.t
 Note:) To Coonect To A remote machine and execute command with sudo access 
 
        ansible all -i  inventory -m yum -a"name=httpd state=installed" -u ruser --ask-pass -b -K
+       
+       
 
