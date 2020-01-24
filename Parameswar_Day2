@@ -1,1 +1,15 @@
-Day 2
+---
+- name: create group
+  hosts: web
+  tasks:
+    - name: Task - create group
+      group: name=deploy state=present
+...
+
+---
+- name: create group
+  hosts: web
+  tasks:
+    - name: Task - create group
+      user: name=deploy_user group=deploy_group shell=/bin/bash state=present
+...
