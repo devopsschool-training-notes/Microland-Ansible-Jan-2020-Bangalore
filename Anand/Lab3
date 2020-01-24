@@ -1,0 +1,70 @@
+Assigment 1 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in inventory.
+
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - debug:
+      msg: my name is {{ myname }}
+...
+Assigment 2 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in Playbooks.
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars:
+    myname: "Anand_in_playbook"
+    package: "httpd"
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - debug:
+      msg: my name is {{ myname }}
+...
+
+Assigment 3 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in external file.
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars_files:
+    - "anandvariable.yaml"
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - debug:
+      msg: my name is {{ myname }}
+...
+
+Assigment 4 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in host_vars.
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - debug:
+      msg: my name is {{ myname }}
+...
+Assigment 5 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in group_vars.
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - debug:
+      msg: my name is {{ myname }}
+...
+
+Assigment 6 – Create a playbook and setup a webserver(httpd), pass the httpd package name decalared on command prompt
+
+---
+- name: This sets up an httpd webserver
+- hosts: web
+  vars_prompt:
+    - name: "Version"
+      prompt: "Which version Do you want to install?"
+  - debug:
+      msg: my name is {{ myname }}
+...
