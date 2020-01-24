@@ -57,3 +57,51 @@
         
         - debug: var=result
     ...
+4)
+    ---
+      - hosts: all
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+5)
+    ---
+      - hosts: s1
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+6)
+    ---
+      - hosts: s1
+        
+        tasks:
+        - name: "webserver"
+          prompt: service name?
+          privates: yes
+        
+        - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+
