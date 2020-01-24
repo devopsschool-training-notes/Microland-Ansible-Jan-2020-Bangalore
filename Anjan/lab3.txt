@@ -20,3 +20,21 @@
         
         - debug: var=result
     ...
+2)
+    ---
+      - hosts: localhost
+        
+        vars:
+         webserver: httpd
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+    
