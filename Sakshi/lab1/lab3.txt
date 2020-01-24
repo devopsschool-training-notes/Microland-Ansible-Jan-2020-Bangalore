@@ -1,1 +1,98 @@
+Answer 1
 
+inventory
+==========================================================
+[web]
+10.0.0.46 ansible_user=ruser  ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+10.0.0.47 ansible_user=ruser  ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+[web:vars]
+myname="Sakshi_invent"
+package="httpd"
+service="httpd"
+
+=====================================================
+
+
+- name: This sets up an httpd webserver
+  hosts: web
+    tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+
+
+
+Answer 2
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars:
+    myname: "Sakshi_playbook"
+    package: "httpd"
+    service: "httpd"
+  
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+...
+
+Answer 3
+
+myvar.yaml
+---
+package="httpd"
+service="httpd"
+...
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: web  
+  vars_files:
+    - "myvar.yaml"
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+... 
+
+Answer 4
+
+mkdir host_vars
+vi host_vars/x.x.x.x
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: web   
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+...
+
+Answer 5
+Mkdir group_vars
+vi group_vars/web
+
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+...
+
+Answer 6
+
+
+---
+- hosts: localhost
+  vars_prompt:
+    - name: "Package"
+      prompt: "Which package do you want to install?"
+
+  tasks:
+    - name: Ansible prompt for package
+      debug:
+        msg: "{{ "Package"}}" 
+...
