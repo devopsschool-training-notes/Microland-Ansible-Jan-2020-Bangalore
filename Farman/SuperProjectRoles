@@ -1,18 +1,14 @@
 Site Playbook
 -----------------
-- hosts: all
+- hosts: dev
   vars_prompt:
     - name: promptvar
       prompt: "What is your name?"
       private: no
 
-   roles:
-   - role: SuperRole
-     vars:
-       n: 1
-   - role: geerlingguy.java
-     vars:
-       n: 2
+  roles:
+    - SuperRole
+    - geerlingguy.java
 
 main.yml file
 ---------------------
@@ -27,6 +23,7 @@ main.yml file
   template:
     src: httpd.j2
     dest: /etc/httpd/conf/httpd.conf
+  notify: restart httpd service 
 
 - name: Run shell script
   script: myshell.sh
@@ -59,8 +56,9 @@ main.yml file
       - vim
     state: installed
     
-Templates:
-==============
+Templates
+==========
+
 index.j2:
 ---------
 Shell out {{shellout}}
@@ -75,19 +73,28 @@ Listen {{portnum}}
 ******************
 
 Vars main:
-------------
+==========
 ---
 package: httpd
 service: httpd
 portnum: 8080
 
 Handlers:
------------
+==========
+---
 - name: restart httpd service
   service:
     name: "{{service}}"
     state: restarted
     
- Shell script (myshell.sh):
- ---------------------------
+Shell script (myshell.sh):
+===========================
  echo "Hello, This is string from shell script echoooooo......Yeaaaa"
+ 
+Meta main.yml
+=============
+---
+dependencies:
+  - geerlingguy.java
+  
+***********
