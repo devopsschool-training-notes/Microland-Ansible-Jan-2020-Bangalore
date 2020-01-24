@@ -1,1 +1,69 @@
+1)
 
+---
+- name: create group
+  hosts: web
+  tasks:
+    - name: create group
+      group: name=deploy state=present
+
+2)
+
+---
+- name: create user
+  hosts: web
+  tasks:
+    - name: create user
+      user: name=deploy-user state=present group=deploy shell=/bin/bash
+      
+ 3)& 4)
+
+---
+- name: httpd
+  hosts: web
+  tasks:
+    - name: install httpd
+      yum: name=httpd state=present 
+    - name: start httpd
+      service: name=httpd stat=started
+     
+  5)
+  
+  ---
+  - name: create file
+    hosts: web
+    tasks: 
+      - name: create and add content
+        blockinfile: dest=/var/www/html/index.html content=<h1>Welcome</h1>
+        
+  6)
+  
+  ---
+  - name: reboot
+    hosts: web
+    tasks:
+      - name: reboot the machine
+        reboot: pre_reboot_delay=0
+        
+   7)
+   
+   ---
+   - name: install git and wget
+     hosts: web
+     tasks:
+       - name: install git
+         yum: name=git state=installed
+       - name: install wget
+         yum: name=wget state=installed
+         
+         
+   8)
+   
+   ---
+   - name: clone a repo
+     hosts: web
+     tasks:
+       - name: clone
+         git: repo=https://github.com/scmgalaxy/ansible-role-template dest=localhost clone=yes
+        
+ 
