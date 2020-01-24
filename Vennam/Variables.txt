@@ -24,7 +24,40 @@ play2_vars.yaml
 ---
 - name: This starts and enables httpd package
   hosts: web
+  vars:
+    myname: "vennam_from_playbok"
+    package: "httpd"
+    service: "httpd"
   tasks:
   - name: Enable package
     service: name={{ package }} state=started enabled=yes
+  - name: Just to check
+    debug:
+      msg: my name is {{ myname }}
+...
+
+myvar.yaml
+---
+myname="vennam_from_external_file"
+package="httpd"
+service="httpd"
+...
+
+play3_vars.yaml
+---
+- name: This starts httpd service
+  hosts: web
+  vars:
+    myname: "vennam_from_playbook"
+    package: "httpd"
+    service: "httpd"
+  vars_files:
+    - "myvar.yaml"
+
+  tasks:
+  - name: Enable package
+    service: name={{ package }} state=started enabled=yes
+  - name: Just to check
+    debug:
+      msg: my name is {{ myname }}
 ...
