@@ -1,0 +1,56 @@
+Program 1 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in inventory.
+
+---
+- name: This sets up an httpd webserver
+  hosts: localhost
+  tasks:
+- name: Install the httpd app
+  yum: name={{ package }}
+  
+
+Inventory
+  ---------
+[web:vars]
+name="webserver"
+package="httpd"
+
+
+Program 2 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in Playbooks.
+
+---
+- name: This sets up an httpd webserver
+  hosts: localhost
+    vars:
+    package: "httpd"
+    service: "httpd"
+  tasks:
+- name: Install the httpd app
+  yum: name={{ package }}
+
+
+Program 3 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in external file.
+
+Program 4 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in host_vars.
+
+---
+- name: This sets up an httpd webserver
+  hosts: web
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+    
+Program 5 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in group_vars.
+
+---
+- name: This sets up an httpd webserver
+  hosts: web
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+    
+    
+Program 6 – Create a playbook and setup a webserver(httpd), pass the httpd package name decalared on command prompt
+
+
