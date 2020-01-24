@@ -3,16 +3,16 @@ Site Playbook
 - hosts: all
   vars_prompt:
     - name: promptvar
-prompt: "What is your name?"
-private: no
+      prompt: "What is your name?"
+      private: no
 
-  roles:
-    - role: SuperRole
-vars:
-n: 1
-    - role: geerlingguy.java
-vars:
-n: 2
+   roles:
+   - role: SuperRole
+     vars:
+       n: 1
+   - role: geerlingguy.java
+     vars:
+       n: 2
 
 main.yml file
 ---------------------
@@ -54,9 +54,9 @@ main.yml file
 - name: Install multiple packages
   yum:
     name:
-- git
-- ntp
-- vim
+      - git
+      - ntp
+      - vim
     state: installed
     
 Templates:
