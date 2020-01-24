@@ -1,0 +1,58 @@
+- name: Training Day2
+  hosts: dev
+
+  tasks:
+
+  - name: Create group
+    group:
+	name: Jesty
+	state: present
+
+  - name: Create user and add to group
+    user:
+	name: JestyDS
+	state: present
+	group: fargrp
+
+  - name: Install httpd
+    yum:
+	name: httpd
+	state: installed
+
+  - name: Start and enable service
+    service:
+	name: httpd
+	state: started
+	enabled: yes
+
+  - name: Create file and write content
+    copy:
+	dest: /var/www/html/index.html
+	content: "Hello world"
+
+  - name: Copy file
+    copy:
+	src: /home/ruser/second.html
+	dest: /var/www/html/
+
+  - name: Install multiple modules
+    yum:
+	name:
+          - wget
+          - git
+	state: installed
+
+  - name:
+    git:
+	repo: https://github.com/scmgalaxy/ansible-role-template
+	dest: /home/ruser/hello
+
+  - name: Create empty file
+    file:
+	path: /opt/devopsschool.txt
+	state: touch
+
+  - name: Remove file
+    file:
+	path: /opt/devopsschool.txt
+	state: absent
