@@ -38,7 +38,9 @@
     - debug: var=result
     
     - name: create a file
-      blockinfile: dest=/var/www/html/index_day2.html content=<h1>Welcome To Anjan World</h1> 
+      blockinfile: 
+       dest: /var/www/html/index_day2.html 
+       content: <h1>Welcome To Anjan World</h1> 
       register: result
       
     - debug: var=result
