@@ -1,1 +1,13 @@
+Assigment 1 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in role var file
 
+
+
+Assigment 2 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared using prompt
+
+
+
+Assigment 3 – Create a playbook and setup a webserver(httpd) and find a list of .txt file in some directory and output using register variables
+
+
+
+Assigment 4 – Create a playbook and setup a webserver(httpd), copy a index.html and interpolate variables in template file decalared in playboo
