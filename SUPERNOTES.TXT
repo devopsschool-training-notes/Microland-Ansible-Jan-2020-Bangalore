@@ -951,6 +951,8 @@ site.yaml
 https://github.com/geerlingguy/ansible-role-java
 
 
+SUPER PROJECT
+https://www.devopsschool.com/blog/ansible-role-project-1/
 
 
 QA -
