@@ -2,17 +2,7 @@ Step 1 – Create a role which has following specification.
 
 Install a webserver httpd # use role/vars/
 Add cond…httpd should be done only if RHEL.
----
-  - name: Install httpd
-
-yum: name={{package_name}}
-when: ansible_distribution == 'Red Hat Enterprise Linux'
-
-
 Copy a index.j2 into /var/www/html # Use Template
-- name: copy a file
-    copy: dest=/var/www/html/ src="index.html"
-
 Copy a httpd.j2 into /etc/httpd/conf/httpd.conf and change the port from 80 to 8080 # Use Template
 Write a handler for httpd.conf changes for restartting a httpd
 Run one Shell Script
@@ -27,3 +17,98 @@ Step 2 – Download a role fromm ansible galaxy which can install jdk in RHEL.
 Step 3 – Call Both role from site.yaml
 
 Step 4 – “Step 2” role is dependent on “Step 1”.
+
+
+Site Playbook
+-----------------
+- hosts: all
+  vars_prompt:
+    - name: promptvar
+      prompt: "What is your name?"
+      private: no
+
+   roles:
+   - role: SuperRole
+     vars:
+       n: 1
+   - role: geerlingguy.java
+     vars:
+       n: 2
+
+main.yml file
+---------------------
+---
+- name: Install httpd
+  yum:
+    name: "{{package}}"
+    state: installed
+  when: ansible_os_family == "RedHat"
+
+- name: Copy http conf
+  template:
+    src: httpd.j2
+    dest: /etc/httpd/conf/httpd.conf
+
+- name: Run shell script
+  script: myshell.sh
+  register: shellout
+
+- name: Set Fact
+  set_fact: factvar="Var from set fact"
+
+- name: Copy index html
+  template:
+    src: index.j2
+    dest: /var/www/html/index.html
+
+- name: Create group
+  group:
+    name: farmanmicro
+    state: present
+
+- name: Create user
+  user:
+    name: farmanmk
+    state: present
+    group: farmanmicro
+
+- name: Install multiple packages
+  yum:
+    name:
+      - git
+      - ntp
+      - vim
+    state: installed
+    
+Templates:
+==============
+index.j2:
+---------
+Shell out {{shellout}}
+Package name {{package}}
+Fact var {{factvar}}
+Varprompttt {{promptvar}}
+
+httpd.j2:
+---------
+*********
+Listen {{portnum}}
+******************
+
+Vars main:
+------------
+---
+package: httpd
+service: httpd
+portnum: 8080
+
+Handlers:
+-----------
+- name: restart httpd service
+  service:
+    name: "{{service}}"
+    state: restarted
+    
+ Shell script (myshell.sh):
+ ---------------------------
+ echo "Hello, This is string from shell script echoooooo......Yeaaaa"
