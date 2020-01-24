@@ -1,0 +1,30 @@
+inventory_vars
+---------------------------
+[web]
+10.0.0.59 ansible_user=ruser ansible_password=Welcome123! ansible_become_password=Welcome123! ansible_become=yes
+
+[db]
+10.0.0.59 ansible_user=ruser ansible_password=Welcome123! ansible_become_password=Welcome123! ansible_become=yes
+
+[web:vars]
+myname="vennam_from_inventory"
+package="httpd"
+service="httpd"
+
+play1_vars.yaml
+---
+- name: This starts and enables httpd package
+  hosts: web
+  tasks:
+  - name: Enable package
+    service: name={{ package }} state=started enabled=yes
+...
+
+play2_vars.yaml
+---
+- name: This starts and enables httpd package
+  hosts: web
+  tasks:
+  - name: Enable package
+    service: name={{ package }} state=started enabled=yes
+...
