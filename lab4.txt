@@ -1,0 +1,11 @@
+1)
+    ---
+      - hosts: localhost
+        
+        tasks:
+        - name: shell command
+          shell: find *.txt
+          register: result
+        
+        - debug: var=result.stdout
+    ...
