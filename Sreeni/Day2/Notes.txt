@@ -55,3 +55,20 @@ Inventory:
       state: "started"
 ...
 
+5) Write a Ansible Playbook to create a file called “index.html” in /var/www/html with some dummy html contents.
+
+
+---
+- name: play5
+  hosts: One
+  tasks:
+  - name: Create A file
+    file:
+      name: "/var/www/html/index.html"
+      state: "touch"
+  - name: write that file
+    copy:
+      content: "stuffffff"
+      dest: "/var/www/html/index.html"
+...
+
