@@ -1,56 +1,90 @@
-Program 1 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in inventory.
+Program 1 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in inventory.
 
----
-- name: This sets up an httpd webserver
-  hosts: localhost
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
   tasks:
-- name: Install the httpd app
-  yum: name={{ package }}
-  
-
-Inventory
-  ---------
-[web:vars]
-name="webserver"
-package="httpd"
-
-
-Program 2 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in Playbooks.
-
----
-- name: This sets up an httpd webserver
-  hosts: localhost
-    vars:
-    package: "httpd"
-    service: "httpd"
-  tasks:
-- name: Install the httpd app
-  yum: name={{ package }}
-
-
-Program 3 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in external file.
-
-Program 4 - Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in host_vars.
-
----
-- name: This sets up an httpd webserver
-  hosts: web
-
-  tasks:
-  - name: Install the httpd apps
+  - name: create a group called deploy
     yum: name={{ package }}
-    
-Program 5 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in group_vars.
+  - name: print the variable value
+    debug:
+      msg: package variable value is {{ package }}
 
----
-- name: This sets up an httpd webserver
-  hosts: web
+Program 2 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in Playbooks
+
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
+
+  vars:
+    install_package: httpd
+  tasks:
+  - name: create a group called deploy
+    yum: name={{ install_package }}
+  - name: print the variable value
+    debug:
+      msg: package variable value is {{ install_package }}
+Program 3 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in external file
+
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
+
+  vars_files:
+    - "myvariables.yaml"
+  tasks:
+  - name: create a group called deploy
+    yum: name={{ pkg }}
+  - name: print the variable value
+    debug:
+      msg: package variable value is {{ pkg }}
+
+
+Program 4 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in host_vars
+
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
 
   tasks:
-  - name: Install the httpd apps
-    yum: name={{ package }}
-    
-    
+  - name: create a group called deploy
+    yum: name={{ myPkg }}
+  - name: print the variable value
+    debug:
+      msg: package variable value is {{ myPkg }}
+
+Program 5 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in group_vars
+
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
+
+  tasks:
+  - name: create a group called deploy
+    yum: name={{ myGrpPkg }}
+  - name: print the variable value
+    debug:
+      msg: package variable value is {{ myGrpPkg }}
+
 Program 6 – Create a playbook and setup a webserver(httpd), pass the httpd package name decalared on command prompt
 
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
 
+  vars_prompt:
+    - name: pkgName
+      prompt: "Provide package name "
+      private:no
+  tasks:
+  - name: create a group called deploy
+    yum: name={{ pkgName }}
+  - name: print the variable value
+    debug:
+      msg: package variable value is {{ pkgName }}
