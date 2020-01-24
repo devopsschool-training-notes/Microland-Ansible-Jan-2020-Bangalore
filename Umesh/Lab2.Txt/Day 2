@@ -1,0 +1,19 @@
+1)
+
+---
+
+- name: Group Creation
+
+  hosts: One
+
+  tasks:
+
+  - name: create group
+
+group:
+
+name: "day2"
+
+state: "present"
+
+...
