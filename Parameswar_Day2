@@ -50,3 +50,15 @@ package=httpd
     - name: Install
       yum: name={{package}} state=installed
 ...
+=========================In play book vars======================
+---
+- name: Install Httpd inv var
+  hosts: web
+  vars:
+    package_play: "httpd"
+  tasks:
+    - name: Install
+      yum: name={{package_play}} state=installed
+    - debug:
+        msg: package is {{package_play}}
+...
