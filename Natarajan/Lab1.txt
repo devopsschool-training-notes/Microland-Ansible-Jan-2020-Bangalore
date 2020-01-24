@@ -41,3 +41,16 @@ Program 10 – Write a Ansible commands to touch a file called “devopsschool.t
 ==========================================================
 sudo ansible localhost -m file -a "dest=/opt/devopsschool.txt state=touch" -b
 sudo ansible localhost -m file -a "path=/opt/devopsschool.txt state=absent" -b
+
+
+
+second machine ip: 10.0.0.39
+
+Program 1 – Write a Ansible Adhoc Commands to create a group called “deploy
+==========================================================
+sudo ansible all -i 10.0.0.39 -m group -a "name=deploy" -b -u ruser -k
+
+-u = -become_user
+
+
+
