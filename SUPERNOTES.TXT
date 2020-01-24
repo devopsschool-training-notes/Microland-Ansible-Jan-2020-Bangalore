@@ -622,3 +622,205 @@ https://www.devopsschool.com/blog/anatomy-of-ansible-play-defined/
 ...
 
 Lab 2 - https://www.devopsschool.com/blog/ansible-playbook-lab-excercise-part-2/
+==========================================================
+variables
+=====================================
+https://www.devopsschool.com/tutorial/ansible/variables/index.html
+
+What is Varaible?
+
+1. playbook
+        one by one
+        include
+2. Task var
+        inlcude
+3. command line
+        command line - one
+        file
+4. inventory
+        inventory
+        group vars
+        host vars
+
+==================PLAYBOOK====================
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars:
+    myname: "rajesh_kumar_in_playbook"
+    package: "httpd"
+    service: "httpd"
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+
+==================PLAYBOOK====================
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars:
+    myname: "rajesh_kumar_in_playbook"
+    package: "httpd"
+    service: "httpd"
+  vars_files:
+    - "myvar.yaml"
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+==================IBVENTORY====================
+
+
+[web]
+13.232.77.194 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+[db]
+52.66.195.155 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+
+
+[web:vars]
+myname="rajesh_kumar_in_invent"
+package="httpd"
+service="httpd"
+
+
+==================TASK LEVEL====================
+
+---
+- name: This sets up an httpd webserver
+  hosts: web
+
+  tasks:
+  - name: include default step variables
+    include_vars: taskvar.yaml
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+==================COMMAND LINE====================
+https://www.devopsschool.com/blog/how-can-i-pass-variable-to-ansible-playbook-in-the-command-line/
+
+
+-----------------GROUP VARS------------------
+---
+- name: This sets up an httpd webserver
+  hosts: web
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+.
+├── epel-release-latest-7.noarch.rpm
+├── group_vars
+│   ├── all
+│   └── web
+├── host_vars
+│   └── 13.232.77.194
+├── index.html
+├── inventory
+├── myvar.yaml
+├── play.yaml
+├── rajesh-mumbai.pem
+├── taskvar.yaml
+├── var1.yaml
+├── var2.yaml
+├── var3.yaml
+└── var4.yaml
+========================================
+RUN TIME VAR
+=========================================
+prompt
+register
+
+
+
+- hosts: localhost
+  vars_prompt:
+    - name: "Version"
+      prompt: "Which version Do you want to install?"
+
+  tasks:
+    - name: Ansible prompt example.
+      debug:
+        msg: "{{ Version }}"
+
+
+
+
+- hosts: all
+  tasks:
+  - name: Ansible register variable basic example
+    shell: "find *.txt"
+    args:
+      chdir: "/Users/mdtutorials2/Documents/Ansible"
+    register: find_output
+
+  - debug:
+      var: find_output
+
+- hosts: localhost
+  tasks:
+  - name: Ansible register variable basic example
+    shell: "find *.txt"
+    args:
+      chdir: "/home/ec2-user"
+    register: find_output
+ 
+  - debug:
+      var: find_output.stdout.strip('\n')
+
+
+line.strip('\n')
+
+=========================FACT VARIABLE==================================
+ansible localhost -m setup | grep os
+
+
+conditioning
+========================
+https://www.devopsschool.com/tutorial/ansible/ansible-conditional-programming-playbooks.html
+
+
+LAb 3 - 
+https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-1/
+
+Lab 4 - 
+https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-2/
