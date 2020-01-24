@@ -1,0 +1,66 @@
+1)
+    ---
+      - hosts: localhost
+        
+        tasks:
+        - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+          
+        - debug: var=result
+          
+        - name: shell command
+          shell: find *.txt
+          register: result
+        
+        - debug: var=result.stdout
+    ...
+2)
+    ---
+      - hosts: localhost
+        
+        tasks:
+        - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+          
+        - debug: var=result
+          
+        - name: shell command
+          shell: find *.txt
+          register: result
+        
+        - debug: var=result.stdout
+    ...
+3)
+    ---
+      - hosts: localhost
+        
+        vars:
+         template: "{{ lookup('file','/home/test/template.json') | from_json }}"
+        
+        tasks:
+        - name: Global
+          set_fact:
+           webserver: httpd
+          
+        - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+          
+        - debug: var=result
+          
+        - name: Interpolate the data
+          copy:
+           content: {{ template }}
+           dest: "/var/www/html/index.html
+          register: result
+        
+        - debug: var=result
+    ...
