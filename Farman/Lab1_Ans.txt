@@ -16,7 +16,7 @@
 8. ansible localhost -m git -a "repo=https://github.com/scmgalaxy/ansible-role-template dest=/home/ruser/h
 ello"
 
-9. ansible localhost -m reboot -a "rebooted=True" -b
+9. ansible localhost -m reboot -a "reboot_timeout=30" -b
 
 10.1. ansible localhost -m file -a "path=/opt/devopsschool.txt state=touch" -b
 
