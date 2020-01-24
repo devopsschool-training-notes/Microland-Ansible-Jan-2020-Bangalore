@@ -1,0 +1,106 @@
+1)
+    invenory
+    [s1]
+    localhost
+
+    [s1:vars]
+    webserver=httpd
+
+    ---
+      - hosts: s1
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+2)
+    ---
+      - hosts: localhost
+        
+        vars:
+         webserver: httpd
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+    
+3)
+    ---
+      - hosts: localhost
+        
+        vars_file:
+         - /home/test/name.yml
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+4)
+    ---
+      - hosts: all
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+5)
+    ---
+      - hosts: s1
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
+6)
+    ---
+      - hosts: s1
+        
+        tasks:
+        - name: "webserver"
+          prompt: service name?
+          privates: yes
+        
+        - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
