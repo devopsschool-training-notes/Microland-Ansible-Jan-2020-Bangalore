@@ -1,1 +1,46 @@
-test  
+hosts: web
+    tasks:
+    - name: set up httpd on web server
+yum:
+name: httpd
+    - name: start the hpptd service
+service:
+name: httpd
+state: started
+    - name: create a empty file
+file:
+dest: /opt/test.txt
+state: touch
+    - name: copy a file
+copy:
+dest: /var/www/html/
+src: index.html
+    - name: create group
+group:
+name: deploy
+    - name: copy with content
+copy:
+dest: /var/www/html/index.html
+content: 'Thi is test for day 2'
+    - name: copy with content
+copy:
+dest: /var/www/html/second.html
+content: 'Thi is test for day 2'
+    - name: install multiple software
+yum:
+name: 'git,wget'
+state: installed
+    - name: copy git repo to destination
+git:
+repo: https://github.com/scmgalaxy/ansible-role-template
+dest: /home/ruser/test1
+clone: yes
+- name: create multiple files
+file:
+path: '/opt/devopsschool1.txt'
+state: touch
+- name: createmultiplefiles
+file:
+path: '/opt/devopsschool1.txt'
+state: absent
+
