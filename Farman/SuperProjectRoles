@@ -88,6 +88,6 @@ Handlers:
     name: "{{service}}"
     state: restarted
     
- Shelll(myshell.sh):
- --------
+ Shell script (myshell.sh):
+ ---------------------------
  echo "Hello, This is string from shell script echoooooo......Yeaaaa"
