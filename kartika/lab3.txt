@@ -1,1 +1,61 @@
+1) 
+ inventory 
+ 
+ [web]
+10.0.0.31
 
+[web:vars]
+ansible_user= ruser
+ansible_password= Welcome123!
+ansible_connection= ssh
+ansible_become=yes
+ansible_become_password=Welcome123!
+package="httpd"
+
+playbook
+
+---
+- name: install httpd
+  hosts: web
+  tasks:
+   - name: install
+yum: name={{ package }} state=present
+
+2)
+
+---
+- name: install httpd
+  hosts: web
+  vars:
+- package: "httpd"
+  tasks:
+   - name: install
+     yum: name={{ package }} state=present
+     
+ 3)
+ var file contets
+ 
+ package: "httpd"
+ 
+ ---
+- name: install httpd
+  hosts: web
+  vars_files:
+    - "myfile.yml"
+  tasks:
+   - name: install
+     yum: name={{ package }} state=present
+     
+     
+ 6)
+ 
+ --
+- name: install httpd
+  hosts: web
+  vars_prompt:
+    - name: "package"
+prompt: " which package ?"
+private: no
+  tasks:
+   - name: install
+     yum: name={{ package }} state=present
