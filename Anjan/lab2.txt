@@ -1,0 +1,96 @@
+
+--- 
+  - hosts: localhost
+  
+    tasks:
+    - name: Group Creation
+      group: 
+       name: deploy_day2 
+       state: present
+      register: result
+    
+    - debug: var=result
+      
+    - name: User Creation
+      user: 
+       name: deploy_day2 
+       state: present 
+       group: deploy_day2 
+       shell: /ban/bash
+      register: result
+    
+    - debug: var=result
+      
+    - name: httpd service installation
+      yum: 
+       name: httpd 
+       state: installed
+      register: result
+    
+    - debug: var=result
+      
+    - name: start httpd service
+      service: 
+       name: httpd
+       state: started
+      register: result
+    
+    - debug: var=result
+    
+    - name: create a file
+      file: 
+       path: /var/www/html/index_day2.html 
+       state: touch
+      register: result
+      
+    - debug: var=result
+      
+    - name: copy file
+      copy: 
+       src: /var/www/html/index_day2.html 
+       dest: /var/www/html/second.html
+      register: result
+      
+    - debug: var=result
+    
+    - name: git installation
+      yum: 
+       name: git 
+       state: installed
+      register: result
+      
+    - debug: var=result
+    
+    - name: wget installation
+      yum: 
+       name: wget 
+       state: installed
+      register: result
+      
+    - debug: var=result
+      
+    - name: clone repo
+      git: 
+       repo: https://github.com/scmgalaxy/ansible-role-template 
+       dest: localhost 
+       clone: yes
+      register: result
+      
+    - debug: var=result
+      
+    - name: file cretion
+      file: 
+       path: /opt/devopsschool_dat2.txt 
+       state: touch
+      register: result
+      
+    - debug: var=result
+    
+    - name: file deleteion
+      file: 
+       path: /opt/devopsschool_dat2.txt 
+       state: absent
+      register: result
+      
+    - debug: var=result
+...
