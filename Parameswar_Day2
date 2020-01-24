@@ -30,3 +30,23 @@
     - name: Task - Start Httpd
       yum: name=httpd enabled=yes state=started
 ...
+
+===============================================================
+variable lab
+===============================================================
+inventory:-
+[web]
+
+10.0.0.43 ansible_user=ruser ansible_passwornsible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_p
+assword=Welcome123!
+
+[web:vars]
+package=httpd
+---------------------------
+---
+- name: Install Httpd inv var
+  hosts: web
+  tasks:
+    - name: Install
+      yum: name={{package}} state=installed
+...
