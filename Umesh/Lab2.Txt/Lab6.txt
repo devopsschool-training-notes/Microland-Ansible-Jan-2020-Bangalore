@@ -1,0 +1,23 @@
+---
+  - hosts: localhost
+    gather_facts: no
+
+
+vars:
+Umesh: [10,20,30,40,50,60,70]
+Chandra: ["Umesh","Chandra","Reddy","Chintu"]
+
+tasks:
+
+- block:
+- name: The Looping Concepts.
+set_fact:
+Critical: "{{ item }}"
+loop:
+- "{{ Umesh }}"
+- "{{ Chandra }}"
+
+- debug: var=Critical
+when: true
+...
+~   
