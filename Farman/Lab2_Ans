@@ -1,4 +1,4 @@
-Iventory file:
+Inventory file:
 -------------------------
 [dev]
 10.0.0.33 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_pass=Welcome123!
