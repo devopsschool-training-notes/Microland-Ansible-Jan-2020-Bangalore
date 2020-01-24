@@ -17,3 +17,11 @@ name: "day2"
 state: "present"
 
 ...
+2)
+
+---
+  - hosts: apache
+    tasks:
+      name: install httpd*
+      yum: name=httpd state=latest
+...
