@@ -26,6 +26,7 @@
         
         vars:
          webserver: httpd
+        
         tasks:
         - debug: var=webserver
         
@@ -38,3 +39,21 @@
         - debug: var=result
     ...
     
+3)
+    ---
+      - hosts: localhost
+        
+        vars_file:
+         - /home/test/name.yml
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
