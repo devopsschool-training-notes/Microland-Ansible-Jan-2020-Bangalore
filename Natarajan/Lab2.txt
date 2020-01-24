@@ -1,1 +1,112 @@
-==============
+
+Program 1 – Write a Ansible Playbook to create a group called “deploy
+==========================================================
+Command: sudo ansible-playbook -i inventory.ini deployplaybook.yaml
+deployplaybook.yaml file content
+- name: This creates a group called deploy
+  hosts: G1
+  tasks:
+  - name: create a group called deploy
+    group: name=deploy
+
+Program 2 – Write a Ansible Playbook to create a user called “deploy-user” which is part of group called “deploy” and with /bin/bash shell.
+==========================================================
+sudo ansible-playbook -i inventory.ini createuserplaybook.yaml
+createuserplaybook.yaml
+- name: This creates a user called deplo-user under the deploy group
+  hosts: G1
+  tasks:
+  - name: create the user
+    user: name=deploy-user group=deploy shell=/bin/bash
+
+Program 3 – Write a Ansible Playbook to install package named “httpd” in RHEL/centos.
+==========================================================
+sudo ansible-playbook -i inventory.ini installhttpdplaybook.yaml
+installhttpdplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
+  tasks:
+  - name: create a group called deploy
+    yum: name=httpd state=installed install_weak_deps=yes
+
+
+Program 4 – Write a Ansible Playbook to start and enable the service named “httpd”
+==========================================================
+sudo ansible-playbook -i inventory.ini httpdstartserviceplaybook.yaml
+httpdstartserviceplaybook.yaml
+- name: This creates a group called deploy
+  hosts: G1
+  tasks:
+  - name: start the httpd service
+    service: name=httpd state=started
+
+Program 5 – Write a Ansible Playbook to create a file called “index.html” in /var/www/html with some dummy html contents.
+==========================================================
+sudo ansible-playbook -i inventory.ini createfileplaybook.yaml
+createfileplaybook.yaml
+- name: create a file called “index.html” in /var/www/html with some dummy html contents
+  hosts: G1
+  tasks:
+  - name: create a file called “index.html” in /var/www/html with some dummy html contents
+    blockinfile: path=/var/www/html/index.html block='<h1>Welcome to my html page</h1>' create=yes
+
+Program 6 – Write a Ansible Playbook to reboot a self machine.
+==========================================================
+sudo ansible-playbook -i inventory.ini rebootplaybook.yaml
+rebootplaybook.yaml
+- name: reboot a self machine
+  hosts: G1
+  tasks:
+  - name: reboot a self machine
+    reboot: pre_reboot_delay=0
+
+in the inventory file we will have the localhost file name
+
+Program 7 – Write a Ansible Playbook to install a package called “git”, “wget”.
+==========================================================
+sudo ansible-playbook -i inventory.ini installgitwgetplaybook.yaml
+installgitwgetplaybook.yaml
+- name: install a package called “git”, “wget”
+  hosts: G1
+  tasks:
+  - name: install git
+    yum: name=git state=installed
+  - name: insatall wget
+    yum: name=wget state=installed
+
+Program 8 – Write a Ansible Playbook to clone git repo. https://github.com/scmgalaxy/ansible-role-template.
+==========================================================
+sudo ansible-playbook -i inventory.ini clonegitrepoplaybook.yaml
+clonegitrepoplaybook.yaml
+- name: clone git repo. https://github.com/scmgalaxy/ansible-role-template
+  hosts: G1
+  tasks:
+  - name: clone git repo
+    git: repo=https://github.com/scmgalaxy/ansible-role-template dest=/MyRepo
+
+
+Program 9 – Now Merge all Top Playbook into one and run and verify
+==========================================================
+sudo ansible localhost -m file -a "dest=/opt/devopsschool.txt state=touch" -b
+sudo ansible localhost -m file -a "path=/opt/devopsschool.txt state=absent" -b
+
+- name: Lab 2 tasks
+  hosts: G1
+  tasks:
+  - name: create a group called deploy
+    group: name=deploy
+  - name: create the user
+    user: name=deploy-user group=deploy shell=/bin/bash
+  - name: install httpd
+    yum: name=httpd state=installed install_weak_deps=yes
+  - name: start the httpd service
+    service: name=httpd state=started
+  - name: create a file called “index.html” in /var/www/html with some dummy html contents
+    blockinfile: path=/var/www/html/index.html block='<h1>Welcome to my html page</h1>' create=yes
+  - name: install git
+    yum: name=git state=installed
+  - name: insatall wget
+    yum: name=wget state=installed
+  - name: clone git repo
+    git: repo=https://github.com/scmgalaxy/ansible-role-template dest=/MyRepo
+    
