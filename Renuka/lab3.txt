@@ -1,0 +1,52 @@
+1.inventory file:
+[web]
+10.0.0.45 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+[web:vars]
+service_name=httpd
+---
+ - hosts: web
+   tasks:
+   - name: setup a web server httpd
+     yum: name={{ service_name }} state=installed
+
+2. ---
+    - hosts: web
+      vars:
+        package: httpd
+      tasks:
+      - name: setup a web server httpd
+        yum: name={{ package }} state=installed
+
+3. vi myvars.yaml
+     package:httpd
+
+  - hosts: web
+      vars_files:
+        - "myvars.yaml"
+      tasks:
+      - name: setup a web server httpd
+        yum: name={{ package }} state=installed
+
+4.- mkdir host_vars
+    vi host_vars/10.0.0.45
+       package: httpd
+    - hosts: web
+      tasks:
+      - name: setup a web server httpd
+        yum: name={{ package }} state=installed
+
+5. mkdir group_vars
+   vi group_vars/web
+
+   - hosts: web
+      tasks:
+      - name: setup a web server httpd
+        yum: name={{ package }} state=installed
+6.- hosts: web
+    vars_prompt:
+      name: package
+      prompt: which package you want to install?
+      tasks:
+      - name: setup a web server httpd
+        yum: name={{ package }} state=installed
