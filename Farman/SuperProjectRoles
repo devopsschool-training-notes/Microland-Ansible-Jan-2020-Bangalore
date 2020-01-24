@@ -70,7 +70,9 @@ Varprompttt {{promptvar}}
 
 httpd.j2:
 ---------
+*********
 Listen {{portnum}}
+******************
 
 Vars main:
 ------------
