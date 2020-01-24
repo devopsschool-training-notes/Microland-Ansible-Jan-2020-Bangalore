@@ -1,0 +1,35 @@
+1)
+---
+
+- name: This is the Httpd Server
+
+  hosts: localhost
+
+  vars:
+    package: "httpd"
+    service: "httpd"
+
+  tasks:
+   - name: Install the httpd apps
+     Package: name={{ package }}
+
+   - name: start the httpd service
+     Service: name={{ service }} state=started
+...
+
+2)
+---
+
+- name: This sets up an httpd webserver
+  hosts: localhost
+  vars:
+    myname: "UmeshChandra"
+
+
+  tasks:
+
+   - name: create a empty fle
+
+     file: dest=/opt/{{ myname }}.txt state=touch
+   - debug: var=file
+...
