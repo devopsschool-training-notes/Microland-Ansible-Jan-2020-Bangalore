@@ -13,3 +13,20 @@
     - name: Task - create group
       user: name=deploy_user group=deploy_group shell=/bin/bash state=present
 ...
+
+---
+- name: Install Httpd
+  hosts: web
+  tasks:
+    - name: Task - Install Httpd
+      yum: name=httpd state=installed
+...
+
+
+---
+- name: Start Httpd
+  hosts: web
+  tasks:
+    - name: Task - Start Httpd
+      yum: name=httpd enabled=yes state=started
+...
