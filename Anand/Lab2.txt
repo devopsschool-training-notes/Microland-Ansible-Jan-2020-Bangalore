@@ -1,0 +1,122 @@
+Write a Ansible Playbook to create a group called “deploy”
+---
+- name: This sets up for group called deploy
+  hosts: web
+  tasks:
+  - name: group called deploy
+    group: name=deploy
+...
+
+Write a Ansible Playbook to create a user called “deploy-user” which is part of group called “deploy” and with /bin/bash shell.
+---
+- name: This sets up for group called deploy-user
+  hosts: web
+  tasks:
+  - name: deploy-user
+    user: deploy-user name=deploy shell=/bin/bash
+...
+
+Write a Ansible Playbook to install package named “httpd” in RHEL/centos.
+
+---
+- name: This sets up for install package name httpd
+  hosts: web
+  tasks:
+  - name: This sets up for install package name httpd
+    yum: name=httpd state=installed install_weak_deps=yes
+...
+
+
+Write a Ansible Playbook to start and enable the service named “httpd”
+---
+- name: This sets up for start service name httpd
+  hosts: web
+  tasks:
+  - name: This sets up for start service name httpd
+    service: name=httpd state=started
+...
+Write a Ansible Playbook to create a file called “index.html” in /var/www/html with some dummy html contents.
+---
+- name: create a file called “index.html”
+  hosts: web
+  tasks:
+  - name: create a file called “index.html”
+    copy: dest=/var/www/html/first.html content=welcome
+...
+
+Write a Ansible Playbook to reboot a self machine.
+
+---
+- name: create a file to reboot a self machine
+  hosts: web
+  tasks:
+  - name: create a file to reboot a self machine
+    reboot: 
+...
+
+Write a Ansible Playbook to install a package called “git”, “wget”.
+---
+- name: create a file to install a package called “git”, “wget”
+  hosts: web
+  tasks:
+  - name: create a file to install a package called “git”, “wget”
+    yum: name=git,wget state=installed
+...
+
+
+Write a Ansible Playbook to clone git repo. thttps://github.com/scmgalaxy/ansible-role-template
+
+---
+- name: create a file to install a package called “git”, “wget”
+  hosts: web
+  tasks:
+  - name: create a file to install a package called “git”, “wget”
+    git: dest=/src/ansible-examples repo=https://github.com/scmgalaxy/ansible-role-template
+...
+
+
+Now Merge all Top Playbook into one and run and verify
+
+---
+- name: This sets up for group called deploy
+  hosts: web
+  tasks:
+  - name: group called deploy
+    group: name=deploy
+
+- name: This sets up for group called deploy-user
+  hosts: web
+  tasks:
+  - name: deploy-user
+    user: deploy-user name=deploy shell=/bin/bash
+
+- name: This sets up for install package name httpd
+  hosts: web
+  tasks:
+  - name: This sets up for install package name httpd
+    yum: name=httpd state=installed install_weak_deps=yes
+
+- name: This sets up for start service name httpd
+  hosts: web
+  tasks:
+  - name: This sets up for start service name httpd
+    service: name=httpd state=started
+
+- name: create a file called “index.html”
+  hosts: web
+  tasks:
+  - name: create a file called “index.html”
+    copy: dest=/var/www/html/first.html content=welcome
+
+- name: create a file to install a package called “git”, “wget”
+  hosts: web
+  tasks:
+  - name: create a file to install a package called “git”, “wget”
+    yum: name=git,wget state=installed
+
+- name: create a file to install a package called “git”, “wget”
+  hosts: web
+  tasks:
+  - name: create a file to install a package called “git”, “wget”
+    git: dest=/src/ansible-examples repo=https://github.com/scmgalaxy/ansible-role-template
+...
