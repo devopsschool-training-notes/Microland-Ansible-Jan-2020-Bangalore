@@ -1,1 +1,29 @@
+Step 1 – Create a role which has following specification.
 
+Install a webserver httpd # use role/vars/
+Add cond…httpd should be done only if RHEL.
+---
+  - name: Install httpd
+
+yum: name={{package_name}}
+when: ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+Copy a index.j2 into /var/www/html # Use Template
+- name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+
+Copy a httpd.j2 into /etc/httpd/conf/httpd.conf and change the port from 80 to 8080 # Use Template
+Write a handler for httpd.conf changes for restartting a httpd
+Run one Shell Script
+Whatever the outout of Shell Script should register into vars and display in index.html
+Create one linux group called “deloitte” and user called “deploy”
+index.j2 should have few fact vars, prompt vars, role/vars and inventory vars. All of them are duplicate but with
+the same value.
+Install a git, ntp and vim tools using ansible looping/iterators
+
+Step 2 – Download a role fromm ansible galaxy which can install jdk in RHEL.
+
+Step 3 – Call Both role from site.yaml
+
+Step 4 – “Step 2” role is dependent on “Step 1”.
