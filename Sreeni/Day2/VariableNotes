@@ -1,1 +1,133 @@
+Tree Structure:
 
+.
+├── encrypass
+├── git
+├── group_vars
+│   └── web
+├── host_vars
+│   └── 10.0.0.51
+├── inventory
+├── lab1_1.yml
+├── lab1_2.yml
+├── lab1_3.yml
+├── lab1_4.yml
+├── lab1_5.yml
+├── lab1_6.yml
+├── play1.yml
+├── play2.yml
+├── play3.yml
+├── play4.yml
+├── play5.yml
+├── second.html
+└── vars.yml
+
+Inventory:
+
+[web]
+10.0.0.51 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes  ansible_become_password=Welcome123!
+[web:vars]
+pakage=httpd
+
+Group vars:
+
+cat group_vars/web:
+
+{
+"package":"gzip"
+}
+
+cat host_vars/10.0.0.51 
+{
+"package_host": "vim"
+}
+
+
+
+
+Assigment 1 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in inventory.
+
+---
+- name: invertory vars
+  hosts: web
+  tasks: 
+  - name: inv vars
+    yum:
+     name: "{{pakage}}"
+     state: "present"
+
+  - debug:
+      var=pakage
+
+
+Assigment 2 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in Playbooks.
+
+---
+- name: invertory vars
+  hosts: web
+  vars:
+   pakage: "httpd"
+  tasks: 
+  - name: inv vars
+    yum:
+     name: "{{pakage}}"
+     state: "present"
+
+  - debug:
+      var=pakage
+
+Assigment 3 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in external file.
+
+- name: invertory vars
+  hosts: web
+  vars_files: "/home/ruser/ansible/vars.yml"
+  tasks: 
+  - name: inv vars
+    yum:
+     name: "{{package}}"
+     state: "present"
+
+  - debug:
+      var=pakage
+
+Assigment 4 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in host_vars.
+
+- name: invertory vars
+  hosts: web
+  tasks: 
+  - name: inv vars
+    yum:
+     name: "{{package}}"
+     state: "present"
+
+  - debug:
+      var=package
+
+Assigment 5 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in group_vars.
+
+- name: invertory vars
+  hosts: web
+  tasks: 
+  - name: host vars
+    yum:
+     name: "{{package_host}}"
+     state: "present"
+
+  - debug:
+      var=package_host
+
+Assigment 6 – Create a playbook and setup a webserver(httpd), pass the httpd package name decalared on command prompt
+
+---
+- name: invertory vars
+  hosts: web
+  vars:
+    package: "{{pkg}}"
+  tasks: 
+  - name: inv vars
+    yum:
+     name: "{{package}}"
+     state: "present"
+
+  - debug:
+      var=package
