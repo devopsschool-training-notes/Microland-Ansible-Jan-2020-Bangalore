@@ -1,0 +1,44 @@
+---
+
+- name: First playbook
+  hosts: web
+  tasks:
+  - name: create a group
+    group: name=deploy state=present
+- name: second playbook
+  hosts: web
+  tasks:
+  - name: create a group with user
+    user: name=deploy-user group=deploy state=present shell=/bin/bash
+- name: third playbook
+  hosts: web
+  tasks:
+  - name: third playbook
+    yum: name=httpd state=installed
+ - name: fourth playbook
+   hosts: web
+   tasks:
+   - name: fourth playbook
+     service: name=httpd state=started enabled=yes
+ - name: fifth
+   hosts: web
+   tasks:
+   - name: fifth playbook
+     blockinfile: path=/var/www/html/index.html create=yes state=present block=Welcome
+ - name:  sixth playbook
+   hosts: web
+   tasks:
+   - name: sixth playbook
+     reboot:
+ - name: seven playbook
+   hosts: web
+   tasks:
+   - name: seventh playbook
+     yum: name=git,wget state=present
+ - name: eight playbook
+   hosts: web
+   tasks:
+   - name: eight playbook
+     git: clone=yes repo=https://github.com/scmgalaxy/ansible-role-template dest=https://github.com/scmgalaxy/ansible-role-template
+
+
