@@ -1,0 +1,22 @@
+1)
+    invenory
+    [s1]
+    localhost
+
+    [s1:vars]
+    webserver=httpd
+
+    ---
+      - hosts: s1
+        
+        tasks:
+        - debug: var=webserver
+        
+         - name: httpd service installation
+          yum: 
+           name: {{ webserver }} 
+           state: installed
+          register: result
+        
+        - debug: var=result
+    ...
