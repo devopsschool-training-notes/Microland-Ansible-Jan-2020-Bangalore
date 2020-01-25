@@ -88,7 +88,7 @@ Handlers:
     
 Shell script (myshell.sh):
 ===========================
- echo "Hello, This is string from shell script echoooooo......Yeaaaa"
+ echo "Hello, This is string from shell script"
  
 Meta main.yml
 =============
