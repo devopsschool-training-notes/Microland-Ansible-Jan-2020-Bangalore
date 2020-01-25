@@ -567,3 +567,667 @@ db
 ansible dev -i invent_group -m yum -a"name=httpd state=installed"
 
 https://www.devopsschool.com/videos/
+
+[web]
+13.232.77.194 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+52.66.195.155 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+
+
+What is Playbook?
+===============================
+https://www.devopsschool.com/blog/anatomy-of-ansible-play-defined/
+.yaml
+
+    PLAY1
+        HOST --->   A GROUP WHICH BELONG TO INVENTORY
+        TASKS
+                TASK1 ------> COMING FROM MODULE with PARAMTERETS
+                TASK2
+                TASK3
+
+    PLAY2
+        HOST
+        TASKS
+
+
+    PLAY3
+        HOST
+        TASKS
+
+===============================
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+  - name: create a empty fle
+    file: dest=/opt/test.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+
+- name: This sets up an httpd webserver
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+  - name: create a empty fle
+    file: dest=/opt/test.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+...
+
+Lab 2 - https://www.devopsschool.com/blog/ansible-playbook-lab-excercise-part-2/
+==========================================================
+variables
+=====================================
+https://www.devopsschool.com/tutorial/ansible/variables/index.html
+
+What is Varaible?
+
+1. playbook
+        one by one
+        include
+2. Task var
+        inlcude
+3. command line
+        command line - one
+        file
+4. inventory
+        inventory
+        group vars
+        host vars
+
+==================PLAYBOOK====================
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars:
+    myname: "rajesh_kumar_in_playbook"
+    package: "httpd"
+    service: "httpd"
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+
+==================PLAYBOOK====================
+---
+- name: This sets up an httpd webserver
+  hosts: web
+  vars:
+    myname: "rajesh_kumar_in_playbook"
+    package: "httpd"
+    service: "httpd"
+  vars_files:
+    - "myvar.yaml"
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+==================IBVENTORY====================
+
+
+[web]
+13.232.77.194 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+[db]
+52.66.195.155 ansible_user=ec2-user ansible_ssh_private_key_file=rajesh-mumbai.pem ansible_become=yes
+
+
+[web:vars]
+myname="rajesh_kumar_in_invent"
+package="httpd"
+service="httpd"
+
+
+==================TASK LEVEL====================
+
+---
+- name: This sets up an httpd webserver
+  hosts: web
+
+  tasks:
+  - name: include default step variables
+    include_vars: taskvar.yaml
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+==================COMMAND LINE====================
+https://www.devopsschool.com/blog/how-can-i-pass-variable-to-ansible-playbook-in-the-command-line/
+
+
+-----------------GROUP VARS------------------
+---
+- name: This sets up an httpd webserver
+  hosts: web
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start the httpd service
+    service: name={{ service }} state=started
+  - name: create a empty fle
+    file: dest=/opt/{{ myname }}.txt state=touch
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: copy a file
+    debug:
+      msg: my name is {{ myname }}
+
+.
+├── epel-release-latest-7.noarch.rpm
+├── group_vars
+│   ├── all
+│   └── web
+├── host_vars
+│   └── 13.232.77.194
+├── index.html
+├── inventory
+├── myvar.yaml
+├── play.yaml
+├── rajesh-mumbai.pem
+├── taskvar.yaml
+├── var1.yaml
+├── var2.yaml
+├── var3.yaml
+└── var4.yaml
+========================================
+RUN TIME VAR
+=========================================
+prompt
+register
+
+
+
+- hosts: localhost
+  vars_prompt:
+    - name: "Version"
+      prompt: "Which version Do you want to install?"
+
+  tasks:
+    - name: Ansible prompt example.
+      debug:
+        msg: "{{ Version }}"
+
+
+
+
+- hosts: all
+  tasks:
+  - name: Ansible register variable basic example
+    shell: "find *.txt"
+    args:
+      chdir: "/Users/mdtutorials2/Documents/Ansible"
+    register: find_output
+
+  - debug:
+      var: find_output
+
+- hosts: localhost
+  tasks:
+  - name: Ansible register variable basic example
+    shell: "find *.txt"
+    args:
+      chdir: "/home/ec2-user"
+    register: find_output
+ 
+  - debug:
+      var: find_output.stdout.strip('\n')
+
+
+line.strip('\n')
+
+=========================FACT VARIABLE==================================
+ansible localhost -m setup | grep os
+
+
+conditioning
+========================
+https://www.devopsschool.com/tutorial/ansible/ansible-conditional-programming-playbooks.html
+
+
+LAb 3 - 
+https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-1/
+
+Lab 4 - 
+https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-2/
+===========================================================================
+
+
+Looping
+==========================================
+https://www.devopsschool.com/tutorial/ansible/ansible-looping-programming-playbooks.html
+
+COPY A FILES Vs templates
+================================
+https://www.devopsschool.com/blog/how-to-use-template-in-ansible/
+https://www.devopsschool.com/tutorial/ansible/ansible-playbook-template.html
+ACS --------> ARS
+
+                    ENV - DEV                 QA              PROD
+
+PLAYBOOK                80                  81              8080
+
+/etc/httpd/conf/httpd.conf
+
+1. Convert into .j2
+2. Replace a expected value with VAR in .j2
+3. Assign var at you desire place
+4. use --- template module ----
+5. run it.
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: web,db
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+  - name: Template a file to /etc/files.conf
+    template:
+      src: httpd.conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+  - name: restart service
+    service: name={{ service }} state=started
+
+
+==================HANDLERS===================
+https://www.devopsschool.com/blog/calling-ansible-handlers-based-on-os-distributions/
+
+---
+- name: This sets up an httpd webserver
+  hosts: web,db
+
+  tasks:
+  - name: copy a file
+    copy: dest=/var/www/html/ src="index.html"
+    notify:
+      - i love ansible
+  - name: Install the httpd apps
+    yum: name={{ package }}
+  - name: start service if found stop
+    service: name={{ service }} state=started
+  - name: Template a file to /etc/files.conf
+    template:
+      src: httpd.conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+    notify:
+      - restart service
+
+  handlers:
+    - name: restart service
+      service: name={{ service }} state=restarted
+    - name: i love ansible
+      debug:
+        msg: "i love ansible"
+
+==============================================================
+PENDING LAB FROM home = HOME WORK
+https://www.devopsschool.com/blog/ansible-variable-lab-excercise-part-2/
+https://www.devopsschool.com/blog/ansible-playbook-lab-excercise-part-2/
+https://www.devopsschool.com/blog/ansible-playbook-lab-excercise-part-3/
+
+============================================
+var in playbook
+    var in ext file
+var in invenory
+    var in groups vars/hostvar
+
+ONE TASK ---> Ansible adhoc
+Multiple TASK ---> Ansible Playbook
+Multiple Playbook --> ??????
+https://www.devopsschool.com/blog/ansible-include-scnario-with-list-of-plays-or-tasks/
+
+PLAYBOOK
+    PLAYS
+            TASKS
+
+---> 
+How to add addtional/external Tasks in Play?
+How to call from one playbook to another playbook?
+============================================================
+
+I have multiple TASKS file?
+I have multiple variable file? for playbook
+I have multiple handlers?
+I have multiple Template?
+I have multile files???????
+==================================================
+ROLE
+
+
+
+
+
+
+site.yaml
+--------------------
+  
+---
+- hosts: web,db
+  gather_facts: false
+  remote_user: ec2-user
+  become: yes
+  roles:
+    - role: web
+    #- role: geerlingguy.java
+
+https://github.com/geerlingguy/ansible-role-java
+
+
+SUPER PROJECT
+https://www.devopsschool.com/blog/ansible-role-project-1/
+
+
+QA -
+How to call handlers in middile? ----> Include task
+SEquence?
+Plugins for Nested loops
+Error Handling
+
+How to pass onevar from one Playbook 
+Set Fact
+
+QA
+=================
+If task got executed but if the is no change - notification or exec some tasks.
+Alternative of Handlers.
+
+=
+
+============================================================================
+=================WORKING WITH WINDOWS Server using Ansibble================
+ACS - 
+13.233.227.204
+
+Windows 
+13.232.30.164
+Public DNS	ec2-13-232-30-164.ap-south-1.compute.amazonaws.com
+User name	Administrator
+Password	
+
+$password = "L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F"
+
+Step 1 -  Setting Ansible Control Server - LINUX    DONE
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-control-setup.html
+
+Step 2 -  Setting Ansible Remote Server - WINDOWS - DONE
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-remote-setup.html
+
+Step 3 -  Modify a inventory file WINDOWS supported host BEHAVIOURAL Parameters
+
+[windows]
+13.232.30.164
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
+
+IMPORTANT THING - ALL WINDOWS MODULE START WITH win_
+https://docs.ansible.com/ansible/latest/modules/list_of_windows_modules.html
+
+Step 4 -  Write a ANSIBLE ADHOC command or Playbook for windows.
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-adhoc-commands.html
+ansible windows -i inventory -m win_ping
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-playbooks.html
+
+Step 5 - Run it.
+PROJECT 
+
+
+LAB 4  - WINDOWS ADHOC
+https://www.devopsschool.com/blog/ansible-windows-adhoc-commands-lab-excercise-part-3/
+
+LAB 5 - WIDNOWS PLAYBOOK 
+https://www.devopsschool.com/blog/ansible-windows-playbook-lab-excercise-part-4/
+
+
+Ansible Vault
+==================================
+
+What is Ansible Vault?
+
+How Ansible Vault works?
+AES256
+
+Advantage or pros of Ansible Vault?
+
+Disadvantage or Cons of Ansible Vault?
+
+Alternate of Ansible Vault?
+- Hashicorp vault
+- Ansible Tower
+- Ansible AWX
+
+How to install Ansible Vault?
+
+$ ansible-vault
+usage: ansible-vault [-h] [--version] [-v]
+                     {create,decrypt,edit,view,encrypt,encrypt_string,rekey}
+                     ...
+ansible-vault: error: too few arguments
+
+
+Basic workflow with Ansible Vault?
+$ more inventory
+
+$ ansible-vault encrypt inventory
+New Vault password:
+Confirm New Vault password:
+Encryption successful
+
+$ more inventory
+
+$ ansible-vault view inventory
+Vault password:
+[windows]
+13.232.30.164
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
+
+[ec2-user@ip-172-31-30-48 ~]$ ansible-vault edit inventory
+Vault password:
+[ec2-user@ip-172-31-30-48 ~]$ more inventory
+$ANSIBLE_VAULT;1.1;AES256
+
+
+$ ansible-vault decrypt inventory
+Vault password:
+Decryption successful
+[ec2-user@ip-172-31-30-48 ~]$ more inventory
+[windows]
+13.232.30.164
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
+
+$ ansible-vault create new_file
+New Vault password:
+Confirm New Vault password:
+[ec2-user@ip-172-31-30-48 ~]$ more new_file
+$ANSIBLE_VAULT;1.1;AES256
+
+$ ansible-vault rekey new_file
+Vault password:
+New Vault password:
+Confirm New Vault password:
+Rekey successful
+
+
+How to use ansible-vault protect file with ansible adhoc command or ansible-playbook command?
+[ec2-user@ip-172-31-30-48 ~]$ ansible all -i inventory -m setup
+[WARNING]:  * Failed to parse /home/ec2-user/inventory with yaml plugin: Attempting to decrypt but no
+vault secrets found
+
+[WARNING]:  * Failed to parse /home/ec2-user/inventory with ini plugin: Attempting to decrypt but no
+vault secrets found
+
+[WARNING]: Unable to parse /home/ec2-user/inventory as an inventory source
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+
+$ ansible all -i inventory -m setup --ask-vault-pass
+
+
+[ec2-user@ip-172-31-30-48 ~]$ ansible-vault encrypt_string
+New Vault password:
+Confirm New Vault password:
+Reading plaintext input from stdin. (ctrl-d to end input)
+skdfjhdsfjkhfkjsh
+sdkfsjhf!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34633030323938386530643465383666393362333132343030303764616330333363653463323033
+          3732333462323361396137663733363030353465633434630a613636633266646334666436613133
+          36663033643333353930353963376464313738323538323661343335383830643338663066363562
+          6531306338386632330a323135363766346565663337306534303932663038303161343139386162
+          32313762666664353361353262326639666436636130313461393838633366653035
+Encryption successful
+
+
+Advance workflow with Ansible Ansible Vault?
+
+Demo?
+=====================================================================================
+What is AWX?
+Why AWX?
+Architecture of AWX?
+----------------------
+How to install AWX?
+https://github.com/ansible/awx/blob/devel/INSTALL.md
+
+13.233.179.29
+
+
+- Ansible Requires Version 2.8+
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo apt-add-repository --yes --update ppa:ansible/ansible
+$ sudo apt install ansible
+
+- Docker
+Ubuntu
+https://www.devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-ubuntu.html
+
+RHEL 
+https://www.devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-centos-rhel.html
+sudo service docker start
+sudo service docker status
+sudo docker info
+docker -v
+
+
+- docker Python module
+sudo apt install python-pip -y
+sudo pip install docker 
+
+- GNU Make
+sudo apt-get install ubuntu-make
+make -v
+
+
+- Git Requires Version 1.8.4+
+sudo apt-get install git
+git --version
+
+- Node 10.x LTS version
+sudo apt install curl
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt install nodejs
+
+- NPM 6.x LTS
+sudo apt install -y nodejs npm
+sudo npm install npm --global
+
+- Docker COmpose
+sudo apt install docker-compose
+sudo pip install docker-compose
+sudo apt install docker-compose
+sudo pip remove docker-compose
+
+
+[RUN AS NORMAL USER]
+===================================
+http://13.233.179.29/#/home
+admin
+password
+===================================
+
+Basic Workflow with Ansible AWX?
+========================================
+========================================
+1. Create a org
+    1- Create a TEAM
+                - dev
+                - QA
+    2 - Craete a user
+                - Add a user to a group/role
+
+2 Upload your list of ACCESS to your ORG
+
+3 Upload your list of INVENTORY to your ORG
+
+4 Upload your PLAYBOOK to your ORG
+
+5 Cteate a template your ORG
+
+6 Start a job using template ORG
+
+---
+ansible-playbook -i inventory playbook.yaml -b -u -k -ekte
+================================================================
+-i inventory ==== Step 3
+-u -k  ==== Step 2
+playbook.yaml ==== projects ==== Step 4
+ansible-playbook -i inventory playbook.yaml -b -u -k -ekte === TEMPLATE
