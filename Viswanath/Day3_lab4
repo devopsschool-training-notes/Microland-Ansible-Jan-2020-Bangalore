@@ -1,0 +1,6 @@
+Write a Adhoc command to Create a dir, named with your-name inside C:\HPE and create a file named with “readme.txt” inside “C:\HPE\ and content of the file should be “I love India by your-name”.
+Write a Adhoc command to Craete a user named with “ansible” and password “ansible in Windows server.
+Write a Adhoc command to Create a file called “helloworld.ps1” in C:\HPE\ with content “mkdir devopsschool” and run a helloworld.ps1.
+Write a Adhoc command to Download one of the msi file 64 bit from https://www.7-zip.org/download.html to windows remote and install it.
+Write a Adhoc command to Install a IIS and start a IIS.
+
