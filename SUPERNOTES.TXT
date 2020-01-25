@@ -1021,3 +1021,122 @@ LAB 5 - WIDNOWS PLAYBOOK
 https://www.devopsschool.com/blog/ansible-windows-playbook-lab-excercise-part-4/
 
 
+Ansible Vault
+==================================
+
+What is Ansible Vault?
+
+How Ansible Vault works?
+AES256
+
+Advantage or pros of Ansible Vault?
+
+Disadvantage or Cons of Ansible Vault?
+
+Alternate of Ansible Vault?
+- Hashicorp vault
+- Ansible Tower
+- Ansible AWX
+
+How to install Ansible Vault?
+
+$ ansible-vault
+usage: ansible-vault [-h] [--version] [-v]
+                     {create,decrypt,edit,view,encrypt,encrypt_string,rekey}
+                     ...
+ansible-vault: error: too few arguments
+
+
+Basic workflow with Ansible Vault?
+$ more inventory
+
+$ ansible-vault encrypt inventory
+New Vault password:
+Confirm New Vault password:
+Encryption successful
+
+$ more inventory
+
+$ ansible-vault view inventory
+Vault password:
+[windows]
+13.232.30.164
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
+
+[ec2-user@ip-172-31-30-48 ~]$ ansible-vault edit inventory
+Vault password:
+[ec2-user@ip-172-31-30-48 ~]$ more inventory
+$ANSIBLE_VAULT;1.1;AES256
+
+
+$ ansible-vault decrypt inventory
+Vault password:
+Decryption successful
+[ec2-user@ip-172-31-30-48 ~]$ more inventory
+[windows]
+13.232.30.164
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
+
+$ ansible-vault create new_file
+New Vault password:
+Confirm New Vault password:
+[ec2-user@ip-172-31-30-48 ~]$ more new_file
+$ANSIBLE_VAULT;1.1;AES256
+
+$ ansible-vault rekey new_file
+Vault password:
+New Vault password:
+Confirm New Vault password:
+Rekey successful
+
+
+How to use ansible-vault protect file with ansible adhoc command or ansible-playbook command?
+[ec2-user@ip-172-31-30-48 ~]$ ansible all -i inventory -m setup
+[WARNING]:  * Failed to parse /home/ec2-user/inventory with yaml plugin: Attempting to decrypt but no
+vault secrets found
+
+[WARNING]:  * Failed to parse /home/ec2-user/inventory with ini plugin: Attempting to decrypt but no
+vault secrets found
+
+[WARNING]: Unable to parse /home/ec2-user/inventory as an inventory source
+
+[WARNING]: No inventory was parsed, only implicit localhost is available
+
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost
+does not match 'all'
+
+
+$ ansible all -i inventory -m setup --ask-vault-pass
+
+
+[ec2-user@ip-172-31-30-48 ~]$ ansible-vault encrypt_string
+New Vault password:
+Confirm New Vault password:
+Reading plaintext input from stdin. (ctrl-d to end input)
+skdfjhdsfjkhfkjsh
+sdkfsjhf!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34633030323938386530643465383666393362333132343030303764616330333363653463323033
+          3732333462323361396137663733363030353465633434630a613636633266646334666436613133
+          36663033643333353930353963376464313738323538323661343335383830643338663066363562
+          6531306338386632330a323135363766346565663337306534303932663038303161343139386162
+          32313762666664353361353262326639666436636130313461393838633366653035
+Encryption successful
+
+
+Advance workflow with Ansible Ansible Vault?
+
+Demo?
+
