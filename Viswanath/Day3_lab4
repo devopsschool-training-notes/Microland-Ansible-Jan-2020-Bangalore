@@ -4,3 +4,4 @@ Write a Adhoc command to Create a file called “helloworld.ps1” in C:\HPE\ wi
 Write a Adhoc command to Download one of the msi file 64 bit from https://www.7-zip.org/download.html to windows remote and install it.
 Write a Adhoc command to Install a IIS and start a IIS.
 
+
