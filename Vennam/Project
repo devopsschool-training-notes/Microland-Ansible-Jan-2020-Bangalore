@@ -1,0 +1,99 @@
+-----------------
+- hosts: dev
+  vars_prompt:
+    - name: promptvar
+      prompt: "What is your name?"
+      private: no
+
+  roles:
+    - SuperRole
+    - geerlingguy.java
+
+main.yml file
+---------------------
+---
+- name: Install httpd
+  yum:
+    name: "{{package}}"
+    state: installed
+  when: ansible_os_family == "RedHat"
+
+- name: Copy http conf
+  template:
+    src: httpd.j2
+    dest: /etc/httpd/conf/httpd.conf
+  notify: restart httpd service 
+
+- name: Run shell script
+  script: myshell.sh
+  register: shellout
+
+- name: Set Fact
+  set_fact: factvar="Var from set fact"
+
+- name: Copy index html
+  template:
+    src: index.j2
+    dest: /var/www/html/index.html
+
+- name: Create group
+  group:
+    name: farmanmicro
+    state: present
+
+- name: Create user
+  user:
+    name: farmanmk
+    state: present
+    group: farmanmicro
+
+- name: Install multiple packages
+  yum:
+    name:
+      - git
+      - ntp
+      - vim
+    state: installed
+    
+Templates
+==========
+
+index.j2:
+---------
+Shell out {{shellout}}
+Package name {{package}}
+Fact var {{factvar}}
+Varprompttt {{promptvar}}
+
+httpd.j2:
+---------
+*********
+Listen {{portnum}}
+******************
+
+Vars main:
+==========
+---
+package: httpd
+service: httpd
+portnum: 8080
+
+Handlers:
+==========
+---
+- name: restart httpd service
+  service:
+    name: "{{service}}"
+    state: restarted
+    
+Shell script (myshell.sh):
+===========================
+ echo "Hello, This is string from shell script echoooooo......Yeaaaa"
+ 
+Meta main.yml
+=============
+---
+dependencies:
+  - geerlingguy.java
+  
+***********
