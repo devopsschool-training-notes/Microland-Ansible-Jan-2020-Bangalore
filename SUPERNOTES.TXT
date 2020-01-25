@@ -971,4 +971,53 @@ Alternative of Handlers.
 
 =
 
+============================================================================
+=================WORKING WITH WINDOWS Server using Ansibble================
+ACS - 
+13.233.227.204
+
+Windows 
+13.232.30.164
+Public DNS	ec2-13-232-30-164.ap-south-1.compute.amazonaws.com
+User name	Administrator
+Password	
+
+$password = "L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F"
+
+Step 1 -  Setting Ansible Control Server - LINUX    DONE
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-control-setup.html
+
+Step 2 -  Setting Ansible Remote Server - WINDOWS - DONE
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-remote-setup.html
+
+Step 3 -  Modify a inventory file WINDOWS supported host BEHAVIOURAL Parameters
+
+[windows]
+13.232.30.164
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=L*N*Dx6J)MtEEm?Z8U5U6.KlU&W!r@2F
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
+
+IMPORTANT THING - ALL WINDOWS MODULE START WITH win_
+https://docs.ansible.com/ansible/latest/modules/list_of_windows_modules.html
+
+Step 4 -  Write a ANSIBLE ADHOC command or Playbook for windows.
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-adhoc-commands.html
+ansible windows -i inventory -m win_ping
+https://www.devopsschool.com/tutorial/ansible/ansible-windows-playbooks.html
+
+Step 5 - Run it.
+PROJECT 
+
+
+LAB 4  - WINDOWS ADHOC
+https://www.devopsschool.com/blog/ansible-windows-adhoc-commands-lab-excercise-part-3/
+
+LAB 5 - WIDNOWS PLAYBOOK 
+https://www.devopsschool.com/blog/ansible-windows-playbook-lab-excercise-part-4/
+
 
