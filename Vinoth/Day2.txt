@@ -1,3 +1,6 @@
+========================================================================================================================================
+--Ansible Playbook Lab & Excercise--
+========================================================================================================================================
 1. Write a Ansible Playbook to create a group called “deploy”
 ---
 - name: Write a playbook to create group
@@ -72,19 +75,7 @@
 ========================================================================================================================================
 9. Now Merge all Top Playbook into one and run and verify
 ---
-- name: Write a playbook to create group
-  hosts: web
-  tasks:
-  - name: Create a Group
-    group: name=Deploy
-...
-========================================================================================================================================
-
-===============================
-
-===============================
----
-- name: Write a playbook to create group
+- name: Write a playbook for all the tasks
   hosts: web
   tasks:
   - name: Create a Group
@@ -95,11 +86,163 @@
     yum: name=httpd
   - name: start the httpd service
     service: name=httpd state=started
-
-
- - name: create a empty fle
-    file: dest=/opt/test.txt state=touch
-  - name: copy a file
-    copy: dest=/var/www/html/ src="index.html"
-
+  - name: Create a file
+    file : path=/var/www/html/index.html state=touch
+  - name: reboot a self machine 
+    reboot : pre_reboot_delay=0
+  - name: install a package
+    yum: name=wget state=installed
+  - name: clone git repo
+    git: repo=https://github.com/scmgalaxy/ansible-role-template dest=/MyRepo
 ...
+
+
+========================================================================================================================================
+--Ansible Variable Lab & Excercise--
+========================================================================================================================================
+Assigment 1 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in inventory.
+
+inventory
+===========
+[web]
+10.0.0.61 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+[web:vars]
+myname="Vinoth_in_Inventory"
+package="httpd"
+service="httpd"
+
+yaml
+===========
+
+---
+- name: Write a playbook for all the tasks
+  hosts: web
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+  - name: Create a bedug
+    debug:
+      msg: my name is {{ myname }}
+...
+
+========================================================================================================================================
+Assigment 2 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in Playbooks.
+
+inventory
+===========
+[web]
+10.0.0.61 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+[web:vars]
+myname="Vinoth_in_Inventory"
+package="httpd"
+service="httpd"
+
+
+yaml
+===========
+
+---
+- name: Write a playbook for all the tasks
+  hosts: web
+  vars:
+    myname: "Vinoth_in_playbook"
+    package: "httpd"
+    service: "httpd"
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+  - name: Create a bedug
+    debug:
+      msg: my name is {{ myname }}
+...
+========================================================================================================================================
+Assigment 3 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in external file.
+
+inventory
+===========
+[web]
+10.0.0.61 ansible_user=ruser ansible_password=Welcome123! ansible_become=yes ansible_become_password=Welcome123!
+
+[web:vars]
+myname="Vinoth_in_Inventory"
+package="httpd"
+service="httpd"
+
+
+yaml
+===========
+
+---
+- name: Write a playbook for all the tasks
+  hosts: web
+  vars:
+    myname: "Vinoth_in_playbook"
+    package: "httpd"
+    service: "httpd"
+  vars_files:
+    - "myvar.yaml"
+    
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+  - name: Create a bedug
+    debug:
+      msg: my name is {{ myname }}
+...
+
+========================================================================================================================================
+Assigment 4 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in host_vars.
+
+mkdir host_var
+
+vi host_var/10.0.0.61
+
+Insert:
+myname: "Vinoth_in_host_var"
+package: "httpd"
+service: "httpd"
+
+---
+- name: Write a playbook for all the tasks
+  hosts: web
+  
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+  - name: Create a bedug
+    debug:
+      msg: my name is {{ myname }}
+...
+
+========================================================================================================================================
+Assigment 5 – Create a playbook and setup a webserver(httpd) and use httpd as a variable decalared in group_vars.
+
+mkdir group_var
+
+vi host_var/10.0.0.61
+
+Insert:
+myname: "Vinoth_in_host_var"
+package: "httpd"
+service: "httpd"
+
+---
+- name: Write a playbook for all the tasks
+  hosts: web
+  
+  tasks:
+  - name: Install the httpd apps
+    yum: name={{ package }} state=installed
+  - name: Create a bedug
+    debug:
+      msg: my name is {{ myname }}
+...
+
+========================================================================================================================================
+Assigment 6 – Create a playbook and setup a webserver(httpd), pass the httpd package name decalared on command prompt
+========================================================================================================================================
+
+
+
