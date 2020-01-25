@@ -955,21 +955,6 @@ SUPER PROJECT
 https://www.devopsschool.com/blog/ansible-role-project-1/
 
 
-QA -
-How to call handlers in middile? ----> Include task
-SEquence?
-Plugins for Nested loops
-Error Handling
-
-How to pass onevar from one Playbook 
-Set Fact
-
-QA
-=================
-If task got executed but if the is no change - notification or exec some tasks.
-Alternative of Handlers.
-
-=
 
 ============================================================================
 =================WORKING WITH WINDOWS Server using Ansibble================
@@ -1231,3 +1216,108 @@ ansible-playbook -i inventory playbook.yaml -b -u -k -ekte
 -u -k  ==== Step 2
 playbook.yaml ==== projects ==== Step 4
 ansible-playbook -i inventory playbook.yaml -b -u -k -ekte === TEMPLATE
+
+
+
+-
+	name: Test module
+	host: localhost
+	tasks:
+	 - userdata: name=Rajesh age=36
+
+
+---
+- name: This is to test Ansible Module
+  hosts: localhost
+
+  tasks:
+  - name: Use userdata module
+    userdata: name="Rajesh" age="36"
+
+-
+	name: Test Jinja2 Templating
+	hosts: localhost
+	task:
+	- userdata: name=Rajesh age=36
+
+
+How to get Ansible Reference Matterials?
+
+Tutorials?
+https://www.devopsschool.com/tutorial/ansible/
+
+Blogs?
+https://www.devopsschool.com/blog/?s=ansible
+
+Notes
+https://github.com/devopsschool-lab-exercise/Microland-Ansible-Jan-2020-Bangalore
+
+Sample Programs
+https://github.com/orgs/devopsschool-sample-projects/dashboard
+https://github.com/devops-school
+https://github.com/orgs/devopsschool-projects/dashboard
+
+HTML Slides
+https://www.devopsschool.com/slides/ansible/
+
+PDF Slides
+https://www.devopsschool.com/pdf/ansible/
+
+videos
+https://www.devopsschool.com/videos/
+https://www.youtube.com/channel/UCrXr49kBvXJeQMMl2693c4g
+
+Community
+https://www.devopsschool.com/community/
+
+QA & Dumps
+https://www.devopsschool.com/lms
+https://www.devopsschool.com/interview/
+
+Cheatsheet
+https://www.devopsschool.com/cheatsheets/
+
+commands
+https://www.devopsschool.com/commands/
+
+How to reach out to me?
+http://rajeshkumar.xyz/
+
+FEEDBACK
+https://tinyurl.com/svspmnh
+
+Training Certificate?
+http://devopscertification.co/certificates/ansible-certified-engineer/index.html
+
+FEEBACK To Me
+https://www.google.com/search?q=devopschool&rlz=1C1CHBF_enIN872IN872&oq=devopschool&aqs=chrome..69i57j69i59j0l5j69i60.8249j0j7&sourceid=chrome&ie=UTF-8
+
+
+
+
+
+
+
+
+
+
+
+
+  QA
+===================================
+Best Strategy for Error handling in Ansible
+QA -
+How to call handlers in middile? ----> Include task
+SEquence?
+Plugins for Nested loops
+Error Handling
+
+How to pass onevar from one Playbook 
+Set Fact
+
+QA
+=================
+If task got executed but if the is no change - notification or exec some tasks.
+Alternative of Handlers.
+
+=
