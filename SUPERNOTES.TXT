@@ -1139,4 +1139,95 @@ Encryption successful
 Advance workflow with Ansible Ansible Vault?
 
 Demo?
+=====================================================================================
+What is AWX?
+Why AWX?
+Architecture of AWX?
+----------------------
+How to install AWX?
+https://github.com/ansible/awx/blob/devel/INSTALL.md
 
+13.233.179.29
+
+
+- Ansible Requires Version 2.8+
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo apt-add-repository --yes --update ppa:ansible/ansible
+$ sudo apt install ansible
+
+- Docker
+Ubuntu
+https://www.devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-ubuntu.html
+
+RHEL 
+https://www.devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-centos-rhel.html
+sudo service docker start
+sudo service docker status
+sudo docker info
+docker -v
+
+
+- docker Python module
+sudo apt install python-pip -y
+sudo pip install docker 
+
+- GNU Make
+sudo apt-get install ubuntu-make
+make -v
+
+
+- Git Requires Version 1.8.4+
+sudo apt-get install git
+git --version
+
+- Node 10.x LTS version
+sudo apt install curl
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt install nodejs
+
+- NPM 6.x LTS
+sudo apt install -y nodejs npm
+sudo npm install npm --global
+
+- Docker COmpose
+sudo apt install docker-compose
+sudo pip install docker-compose
+sudo apt install docker-compose
+sudo pip remove docker-compose
+
+
+[RUN AS NORMAL USER]
+===================================
+http://13.233.179.29/#/home
+admin
+password
+===================================
+
+Basic Workflow with Ansible AWX?
+========================================
+========================================
+1. Create a org
+    1- Create a TEAM
+                - dev
+                - QA
+    2 - Craete a user
+                - Add a user to a group/role
+
+2 Upload your list of ACCESS to your ORG
+
+3 Upload your list of INVENTORY to your ORG
+
+4 Upload your PLAYBOOK to your ORG
+
+5 Cteate a template your ORG
+
+6 Start a job using template ORG
+
+---
+ansible-playbook -i inventory playbook.yaml -b -u -k -ekte
+================================================================
+-i inventory ==== Step 3
+-u -k  ==== Step 2
+playbook.yaml ==== projects ==== Step 4
+ansible-playbook -i inventory playbook.yaml -b -u -k -ekte === TEMPLATE
